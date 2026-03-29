@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEZ记账管理系统 - 多协议防封·智能记账专家</title>
+    
+    <!-- SEO Meta 标签 -->
+    <meta name="description" content="HEZ记账管理系统 - 全自动记账 + 多协议防封，一年仅需800元，支持3天免费试用。专为群管理、工作室、代收代付打造，告别每天1小时手动记账。">
+    <meta name="keywords" content="记账软件,微信群记账,防封,代收代付,卡密交易,多协议记账,社群管理,自动记账">
+    <meta name="author" content="HEZ记账管理系统">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://hez.cc">
+    
+    <!-- Open Graph 社交分享 -->
+    <meta property="og:title" content="HEZ记账管理系统 - 多协议防封·智能记账专家">
+    <meta property="og:description" content="全自动记账 + 多协议防封，一年仅需800元，支持3天免费试用">
+    <meta property="og:image" content="https://hez.cc/og-image.jpg">
+    <meta property="og:url" content="https://hez.cc">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="HEZ记账管理系统">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="HEZ记账管理系统 - 多协议防封">
+    <meta name="twitter:description" content="全自动记账 + 多协议防封，一年仅需800元">
+    
+    <!-- 结构化数据 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "HEZ记账管理系统",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Windows 10/11",
+      "offers": {
+        "@type": "Offer",
+        "price": "800",
+        "priceCurrency": "CNY"
+      },
+      "description": "专为群管理、工作室、代收代付打造的智能记账系统，支持多协议防封、自动记账、Excel导出"
+    }
+    </script>
+    
+    <!-- 第三方库 - 使用国内CDN加速 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.bootcdn.net/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <script src="https://cdn.bootcdn.net/ajax/libs/aos/2.3.4/aos.js"></script>
+    <!-- 预连接加速 -->
+    <link rel="preconnect" href="https://cdn.bootcdn.net">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" as="style">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- 项目配置 -->
+    <script src="js/config.js"></script>
+    
+    <!-- 样式 -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="font-sans bg-dark text-white antialiased noise-bg">
+    <!-- 导航 -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center animate-glow-pulse">
+                        <i class="fa-solid fa-wallet text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl md:text-2xl font-bold">HEZ</span>
+                </div>
+                
+                <!-- 桌面端导航 -->
+                <div class="hidden md:flex items-center gap-8">
+                    <a href="#features" class="nav-link text-gray-400 hover:text-white transition-colors relative py-2" data-section="features">核心功能</a>
+                    <a href="#advantage" class="nav-link text-gray-400 hover:text-white transition-colors relative py-2" data-section="advantage">产品优势</a>
+                    <a href="#price" class="nav-link text-gray-400 hover:text-white transition-colors relative py-2" data-section="price">价格套餐</a>
+                    <a href="#faq" class="nav-link text-gray-400 hover:text-white transition-colors relative py-2" data-section="faq">常见问题</a>
+                </div>
+                
+                <!-- 移动端汉堡菜单按钮 -->
+                <button id="mobile-menu-btn" class="md:hidden w-10 h-10 flex items-center justify-center rounded-lg hover:bg-white/10 transition-colors" onclick="toggleMobileMenu()" aria-label="打开菜单">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+                
+                <a href="manual.html" class="hidden md:inline-flex btn-glow py-2 px-6 text-sm items-center gap-2">
+                    <i class="fa-solid fa-book"></i> 在线手册
+                </a>
+            </div>
+        </div>
+        
+        <!-- 移动端菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden glass border-t border-white/10">
+            <div class="px-4 py-4 space-y-2">
+                <a href="#features" class="block py-3 px-4 rounded-lg hover:bg-white/10 transition-colors" onclick="toggleMobileMenu()">核心功能</a>
+                <a href="#advantage" class="block py-3 px-4 rounded-lg hover:bg-white/10 transition-colors" onclick="toggleMobileMenu()">产品优势</a>
+                <a href="#price" class="block py-3 px-4 rounded-lg hover:bg-white/10 transition-colors" onclick="toggleMobileMenu()">价格套餐</a>
+                <a href="#faq" class="block py-3 px-4 rounded-lg hover:bg-white/10 transition-colors" onclick="toggleMobileMenu()">常见问题</a>
+                <a href="manual.html" class="block py-3 px-4 rounded-lg bg-primary/20 text-primary hover:bg-primary/30 transition-colors text-center">
+                    <i class="fa-solid fa-book mr-2"></i>在线手册
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero - 聚焦核心价值 -->
+    <section class="relative pt-32 pb-20 md:pt-40 md:pb-32 mesh-bg overflow-hidden">
+        <div class="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-[100px] animate-float"></div>
+        <div class="absolute bottom-20 right-10 w-96 h-96 bg-accent/15 rounded-full blur-[120px] animate-float" style="animation-delay: -3s;"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row items-center gap-12">
+                <div class="lg:w-1/2 space-y-8" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm">
+                        <span class="w-2 h-2 rounded-full bg-success animate-pulse"></span>
+                        <span class="text-gray-300">群账记不清？封号怕损失？一招搞定</span>
+                    </div>
+                    
+                    <h1 class="text-[clamp(2.2rem,5vw,3.5rem)] font-bold leading-tight">
+                        全自动记账 + 多协议防封<br>
+                        <span class="gradient-text text-glow">一年仅需800元</span>
+                    </h1>
+                    
+                    <p class="text-lg text-gray-400 max-w-xl">
+                        专为群管理、工作室、代收代付打造，告别每天1小时手动记账，多群账目自动分离，智能防封引擎7天全额退款兜底。
+                    </p>
+
+                    <!-- 三大核心吸引力标签 -->
+                    <div class="flex flex-wrap gap-3">
+                        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-success/10 border border-success/30 text-sm">
+                            <i class="fa-solid fa-gift text-success"></i>
+                            <span class="text-success font-medium">3天免费试用</span>
+                        </span>
+                        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary/10 border border-primary/30 text-sm">
+                            <i class="fa-solid fa-shield-halved text-primary"></i>
+                            <span class="text-primary font-medium">7天封号全额退款</span>
+                        </span>
+                        <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-accent/10 border border-accent/30 text-sm">
+                            <i class="fa-solid fa-tag text-accent"></i>
+                            <span class="text-accent font-medium">800元/年 全功能</span>
+                        </span>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#contact" class="btn-glow inline-flex items-center gap-2">
+                            <i class="fa-brands fa-weixin"></i> 立即免费试用
+                        </a>
+                        <a href="#features" class="glass px-8 py-3 rounded-xl font-semibold transition-all hover:bg-white/10 inline-flex items-center gap-2">
+                            <i class="fa-solid fa-play"></i> 了解功能
+                        </a>
+                    </div>
+                    
+                    <div class="flex items-center gap-6 pt-4">
+                        <div class="flex -space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-pink-500 to-orange-400 flex items-center justify-center text-xs font-bold border-2 border-dark">A</div>
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-xs font-bold border-2 border-dark">B</div>
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-400 flex items-center justify-center text-xs font-bold border-2 border-dark">C</div>
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-red-500 flex items-center justify-center text-xs font-bold border-2 border-dark">+</div>
+                        </div>
+                        <p class="text-gray-400"><span class="text-white font-semibold">1000+</span> 用户信赖 · <span class="text-white font-semibold">60%</span> 为工作室/代收代付</p>
+                    </div>
+                </div>
+                
+                <!-- 右侧装饰 -->
+                <div class="lg:w-1/2 flex justify-center" data-aos="fade-left" data-aos-duration="1000">
+                    <div class="relative">
+                        <div class="w-80 h-80 md:w-96 md:h-96 gradient-border flex items-center justify-center animate-float">
+                            <div class="w-60 h-60 md:w-72 md:h-72 rounded-3xl bg-gradient-to-br from-primary/20 to-accent/20 glass flex items-center justify-center">
+                                <div class="text-center">
+                                    <i class="fa-solid fa-chart-line text-6xl md:text-7xl gradient-text mb-4"></i>
+                                    <p class="text-gray-400 text-sm">智能记账系统</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-6 -left-6 glass-card px-4 py-3 rounded-xl" data-aos="fade-up" data-aos-delay="300">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-success/20 flex items-center justify-center">
+                                    <i class="fa-solid fa-check text-success"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400">今日收入</p>
+                                    <p class="font-bold text-success">+12,850元</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute -top-4 -right-4 glass-card px-4 py-3 rounded-xl" data-aos="fade-up" data-aos-delay="500">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
+                                    <i class="fa-solid fa-shield-halved text-primary"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400">安全状态</p>
+                                    <p class="font-bold text-primary">正常运行</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute -bottom-2 -right-8 glass-card px-4 py-3 rounded-xl" data-aos="fade-up" data-aos-delay="700">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center">
+                                    <i class="fa-solid fa-users text-accent"></i>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400">管理群数</p>
+                                    <p class="font-bold text-accent">无限群</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 核心功能 - 模块化分类 -->
+    <section id="features" class="py-20 md:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">核心功能</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">全场景适配，自动记账、智能管理，让每一笔账目清晰可查</p>
+            </div>
+            
+            <!-- 分类标签 -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12" data-aos="fade-up" data-aos-delay="100">
+                <button class="feature-tab active px-5 py-2 rounded-full text-sm font-medium transition-all" data-tab="security">
+                    <i class="fa-solid fa-shield-halved mr-1"></i> 安全防封
+                </button>
+                <button class="feature-tab px-5 py-2 rounded-full text-sm font-medium transition-all" data-tab="billing">
+                    <i class="fa-solid fa-wallet mr-1"></i> 记账管理
+                </button>
+                <button class="feature-tab px-5 py-2 rounded-full text-sm font-medium transition-all" data-tab="data">
+                    <i class="fa-solid fa-database mr-1"></i> 数据服务
+                </button>
+            </div>
+
+            <!-- 安全防封模块 -->
+            <div class="feature-panel active" id="panel-security" data-aos="fade-up" data-aos-delay="200">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center">
+                                <i class="fa-solid fa-arrows-rotate text-xl text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">多协议智能切换</h3>
+                                <span class="text-xs text-primary bg-primary/10 px-2 py-0.5 rounded">核心功能</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm">内置多种安全协议，支持手动和自动切换，智能适配VX环境，封号率降低80%。</p>
+                    </div>
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-success/30 to-success/10 flex items-center justify-center">
+                                <i class="fa-solid fa-shield-halved text-xl text-success"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">7天退款保障</h3>
+                                <span class="text-xs text-success bg-success/10 px-2 py-0.5 rounded">独家优势</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm">自激活7天内因协议问题封号，提供截图即可无条件全额退款，零风险体验。</p>
+                    </div>
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent/30 to-accent/10 flex items-center justify-center">
+                                <i class="fa-solid fa-fingerprint text-xl text-accent"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">零隐私获取</h3>
+                                <span class="text-xs text-accent bg-accent/10 px-2 py-0.5 rounded">安全保障</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm">不读取聊天内容，不收集任何隐私信息，通过安全检测，无恶意插件。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 记账管理模块 -->
+            <div class="feature-panel" id="panel-billing">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-success/30 to-success/10 flex items-center justify-center">
+                                <i class="fa-solid fa-robot text-xl text-success"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">全自动智能记账</h3>
+                                <span class="text-xs text-success bg-success/10 px-2 py-0.5 rounded">核心功能</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm">告别每天1小时手动录入！自动识别指令，实时入账不遗漏。</p>
+                    </div>
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent/30 to-accent/10 flex items-center justify-center">
+                                <i class="fa-solid fa-users text-xl text-accent"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">多群独立账本</h3>
+                                <span class="text-xs text-accent bg-accent/10 px-2 py-0.5 rounded">热门功能</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm">1个软件管无限群，群账分离不混淆，支持群收款/转账/红包/卡密交易识别。</p>
+                    </div>
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500/30 to-pink-500/10 flex items-center justify-center">
+                                <i class="fa-solid fa-magnifying-glass-chart text-xl text-pink-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">快速查账对账</h3>
+                                <span class="text-xs text-pink-400 bg-pink-500/10 px-2 py-0.5 rounded">效率工具</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm">支持按群、按人、按时间、按金额查询，查账对账一键搞定，账目一目了然。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数据服务模块 -->
+            <div class="feature-panel" id="panel-data">
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500/30 to-purple-500/10 flex items-center justify-center">
+                                <i class="fa-solid fa-file-excel text-xl text-purple-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">Excel一键导出</h3>
+                                <span class="text-xs text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded">财务必备</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm">导出收支明细表、群成员对账表、月度汇总表，支持多种报表模板，方便财务结算。</p>
+                    </div>
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500/30 to-orange-500/10 flex items-center justify-center">
+                                <i class="fa-solid fa-lock text-xl text-orange-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">AES256本地加密</h3>
+                                <span class="text-xs text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded">安全存储</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm">AES256加密算法，数据仅存本地电脑，无云端上传通道，隐私数据永不泄露。</p>
+                    </div>
+                    <div class="glass-card p-8">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-cyan-500/30 to-cyan-500/10 flex items-center justify-center">
+                                <i class="fa-solid fa-cloud-arrow-down text-xl text-cyan-400"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-semibold">数据备份恢复</h3>
+                                <span class="text-xs text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded">双重保障</span>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 text-sm">支持手动备份数据到本地，一键恢复历史数据，双重保障永不丢失。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 快速上手 - 图文步骤卡 -->
+    <section id="tutorial" class="py-20 md:py-32 bg-surface">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">4步快速上手</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">简单几步，轻松开启智能记账之旅</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="glass-card p-8 text-center relative" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-xs font-bold">1</div>
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary/30 to-primary/10 flex items-center justify-center mx-auto mb-6">
+                        <i class="fa-solid fa-download text-3xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">下载安装</h3>
+                    <p class="text-gray-400 text-sm mb-3">联系客服获取安装包，双击运行完成安装</p>
+                    <span class="inline-flex items-center gap-1 text-xs text-gray-500"><i class="fa-regular fa-clock"></i> 约1分钟</span>
+                </div>
+                
+                <div class="glass-card p-8 text-center relative" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-success flex items-center justify-center text-xs font-bold">2</div>
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-success/30 to-success/10 flex items-center justify-center mx-auto mb-6">
+                        <i class="fa-solid fa-key text-3xl text-success"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">账号登录</h3>
+                    <p class="text-gray-400 text-sm mb-3">使用客服提供的试用账号，一键登录体验</p>
+                    <span class="inline-flex items-center gap-1 text-xs text-gray-500"><i class="fa-regular fa-clock"></i> 约30秒</span>
+                </div>
+                
+                <div class="glass-card p-8 text-center relative" data-aos="fade-up" data-aos-delay="300">
+                    <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-accent flex items-center justify-center text-xs font-bold">3</div>
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-accent/30 to-accent/10 flex items-center justify-center mx-auto mb-6">
+                        <i class="fa-solid fa-gear text-3xl text-accent"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">配置群聊</h3>
+                    <p class="text-gray-400 text-sm mb-3">添加需要记账的微信群，设置记账规则</p>
+                    <span class="inline-flex items-center gap-1 text-xs text-gray-500"><i class="fa-regular fa-clock"></i> 约2分钟</span>
+                </div>
+                
+                <div class="glass-card p-8 text-center relative" data-aos="fade-up" data-aos-delay="400">
+                    <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center text-xs font-bold">4</div>
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-pink-500/30 to-pink-500/10 flex items-center justify-center mx-auto mb-6">
+                        <i class="fa-solid fa-check-double text-3xl text-pink-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">自动记账</h3>
+                    <p class="text-gray-400 text-sm mb-3">软件自动识别记账指令，实时入账不遗漏</p>
+                    <span class="inline-flex items-center gap-1 text-xs text-gray-500"><i class="fa-regular fa-clock"></i> 立即生效</span>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center" data-aos="fade-up">
+                <div class="inline-flex items-center gap-3 px-6 py-3 glass rounded-full">
+                    <i class="fa-solid fa-bolt text-primary"></i>
+                    <span class="text-gray-300">平均 <span class="text-primary font-bold text-lg">5分钟</span> 即可完成全部配置，开始智能记账</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 产品优势 - 痛点绑定 + 具象化数据 -->
+    <section id="advantage" class="py-20 md:py-32 bg-surface">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">为什么选择 HEZ？</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">同类产品年费过万、功能繁杂难用，HEZ 专注实用，性价比更高</p>
+            </div>
+            
+            <div class="max-w-4xl mx-auto" data-aos="fade-up">
+                <div class="relative">
+                    <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-3xl blur-3xl"></div>
+                    <div class="relative gradient-border rounded-3xl p-8">
+                        <!-- 核心数据展示 -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div class="glass-card p-5 text-center">
+                                <p class="text-3xl font-bold gradient-text">99.9%</p>
+                                <p class="text-gray-500 text-sm mt-1">全年稳定率</p>
+                                <p class="text-gray-600 text-xs">7年技术沉淀</p>
+                            </div>
+                            <div class="glass-card p-5 text-center">
+                                <p class="text-3xl font-bold gradient-text">1000+</p>
+                                <p class="text-gray-500 text-sm mt-1">活跃用户</p>
+                                <p class="text-gray-600 text-xs">长期稳定合作</p>
+                            </div>
+                            <div class="glass-card p-5 text-center">
+                                <p class="text-3xl font-bold gradient-text">800元</p>
+                                <p class="text-gray-500 text-sm mt-1">年费仅需</p>
+                                <p class="text-gray-600 text-xs">同类产品过万</p>
+                            </div>
+                            <div class="glass-card p-5 text-center">
+                                <p class="text-3xl font-bold gradient-text">100倍</p>
+                                <p class="text-gray-500 text-sm mt-1">数据安全赔付</p>
+                                <p class="text-gray-600 text-xs">本地存储保障</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 价格对比提示 -->
+                        <div class="mb-6 p-4 rounded-xl bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 text-center">
+                            <p class="text-sm text-gray-300">同类产品年卡 <span class="text-gray-500 line-through">10000+元</span>，HEZ仅需 <span class="text-primary font-bold">800元/年</span>，立省 90%</p>
+                        </div>
+                        
+                        <!-- 核心优势列表 -->
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div class="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
+                                <div class="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-puzzle-piece text-primary"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-sm mb-1">通用版兼容多种记账模式</p>
+                                    <p class="text-gray-500 text-xs">适配不同工作场景，无需改变现有流程</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
+                                <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-database text-green-400"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-sm mb-1">数据完全本地存储</p>
+                                    <p class="text-gray-500 text-xs">支持软件数据检测，发现数据盗用100倍赔付</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
+                                <div class="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-shield-halved text-yellow-400"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-sm mb-1">双模式切换防风控</p>
+                                    <p class="text-gray-500 text-xs">智能切换登录协议，避免单一模式频繁检测</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/10">
+                                <div class="w-10 h-10 rounded-lg bg-accent/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-hand-holding-dollar text-accent"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-sm mb-1">操作简单，快速上手</p>
+                                    <p class="text-gray-500 text-xs">无需专业培训，自动识别记账，省时省力</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 价格套餐 -->
+    <section id="price" class="py-20 md:py-32 bg-surface">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">价格套餐</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">一次付费，全年使用，无隐藏消费</p>
+            </div>
+            
+            <!-- 套餐卡片网格 -->
+            <div class="grid md:grid-cols-3 gap-6 lg:gap-8">
+                
+                <!-- 微信记账 -->
+                <div class="relative" data-aos="fade-up" data-aos-delay="100">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
+                        <span class="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full text-xs font-bold text-white">
+                            热销
+                        </span>
+                    </div>
+                    <div class="glass-card rounded-2xl h-full flex flex-col">
+                        <div class="text-center px-6 pt-6 pb-4">
+                            <div class="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center mx-auto mb-3">
+                                <i class="fa-brands fa-weixin text-green-400 text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold">VX记账</h3>
+                            <p class="text-gray-500 text-xs mt-1">年卡 · 全功能版</p>
+                        </div>
+                        <div class="bg-green-500/10 py-5 text-center border-y border-green-500/10">
+                            <div class="flex items-baseline justify-center gap-1">
+                                <span class="text-4xl font-bold text-green-400">800</span>
+                                <span class="text-gray-400">元/年</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1">
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-green-400"></i>
+                                    <span class="text-gray-300">全自动智能记账</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-green-400"></i>
+                                    <span class="text-gray-300">多群独立账本</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-green-400"></i>
+                                    <span class="text-gray-300">多协议防封</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-green-400"></i>
+                                    <span class="text-gray-300">群发消息功能</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-green-400"></i>
+                                    <span class="text-gray-300">Excel 导出</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-6">
+                            <a href="#contact" class="btn-glow w-full inline-flex items-center justify-center gap-2 text-sm py-2.5 bg-green-600 hover:bg-green-500">
+                                <i class="fa-brands fa-weixin"></i> 免费试用 3 天
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WhatsApp 记账 -->
+                <div class="relative" data-aos="fade-up" data-aos-delay="200">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
+                        <span class="inline-flex items-center gap-1 px-4 py-1.5 bg-gradient-to-r from-primary to-accent rounded-full text-xs font-bold text-white shadow-lg shadow-primary/30">
+                            <i class="fa-solid fa-star text-yellow-300"></i> 推荐
+                        </span>
+                    </div>
+                    <div class="glass-card rounded-2xl h-full flex flex-col border-primary/30" style="border-width: 2px;">
+                        <div class="text-center px-6 pt-6 pb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-green-600 to-teal-500 flex items-center justify-center mx-auto mb-3">
+                                <i class="fa-brands fa-whatsapp text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold">WhatsApp 记账</h3>
+                            <p class="text-gray-500 text-xs mt-1">年卡 · 全功能版</p>
+                        </div>
+                        <div class="bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 py-5 text-center border-y border-white/5">
+                            <div class="flex items-baseline justify-center gap-1">
+                                <span class="text-4xl font-bold gradient-text">1000</span>
+                                <span class="text-gray-400">元/年</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1">
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-success"></i>
+                                    <span class="text-gray-300">全自动智能记账</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-success"></i>
+                                    <span class="text-gray-300">多群独立账本</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-success"></i>
+                                    <span class="text-gray-300">API 官方接口</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-success"></i>
+                                    <span class="text-gray-300">群发消息功能</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-success"></i>
+                                    <span class="text-gray-300">Excel 导出</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-success"></i>
+                                    <span class="text-gray-300">7×10h 售后支持</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-6">
+                            <a href="#contact" class="btn-glow w-full inline-flex items-center justify-center gap-2 text-sm py-2.5">
+                                <i class="fa-brands fa-whatsapp"></i> 立即咨询
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Telegram 记账 -->
+                <div class="relative" data-aos="fade-up" data-aos-delay="300">
+                    <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-20">
+                        <span class="inline-flex items-center gap-1 px-3 py-1 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full text-xs font-bold text-white">
+                            新品
+                        </span>
+                    </div>
+                    <div class="glass-card rounded-2xl h-full flex flex-col">
+                        <div class="text-center px-6 pt-6 pb-4">
+                            <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center mx-auto mb-3">
+                                <i class="fa-brands fa-telegram text-white text-xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold">Telegram 记账</h3>
+                            <p class="text-gray-500 text-xs mt-1">年卡 · 全功能版</p>
+                        </div>
+                        <div class="bg-blue-500/10 py-5 text-center border-y border-blue-500/10">
+                            <div class="flex items-baseline justify-center gap-1">
+                                <span class="text-4xl font-bold text-blue-400">1000</span>
+                                <span class="text-gray-400">元/年</span>
+                            </div>
+                        </div>
+                        <div class="p-6 flex-1">
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-blue-400"></i>
+                                    <span class="text-gray-300">全自动智能记账</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-blue-400"></i>
+                                    <span class="text-gray-300">多群独立账本</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-blue-400"></i>
+                                    <span class="text-gray-300">Bot API 接口</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-blue-400"></i>
+                                    <span class="text-gray-300">群发消息功能</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-blue-400"></i>
+                                    <span class="text-gray-300">Excel 导出</span>
+                                </div>
+                                <div class="flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-check text-blue-400"></i>
+                                    <span class="text-gray-300">7×10h 售后支持</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-6">
+                            <a href="#contact" class="btn-glow w-full inline-flex items-center justify-center gap-2 text-sm py-2.5 bg-blue-600 hover:bg-blue-500">
+                                <i class="fa-brands fa-telegram"></i> 立即咨询
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- 定制功能区块 -->
+            <div class="mt-12 relative" data-aos="fade-up" data-aos-delay="400">
+                <div class="absolute inset-0 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-purple-500/10 rounded-3xl blur-xl"></div>
+                <div class="relative gradient-border rounded-3xl p-8 md:p-10 border-purple-500/30" style="border-width: 2px;">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <!-- 左侧：标题和介绍 -->
+                        <div class="text-center md:text-left">
+                            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/20 border border-purple-500/30 mb-4">
+                                <i class="fa-solid fa-crown text-yellow-400"></i>
+                                <span class="text-purple-300 font-medium text-sm">专属定制服务</span>
+                            </div>
+                            <h3 class="text-2xl md:text-3xl font-bold mb-4">
+                                量身打造 <span class="text-purple-400">专属功能</span>
+                            </h3>
+                            <p class="text-gray-400 mb-6">
+                                现有套餐无法满足您的需求？我们提供一对一定制开发服务，根据您的实际业务场景，打造完全贴合工作需求的专属功能。
+                            </p>
+                            <div class="flex flex-wrap gap-3 justify-center md:justify-start">
+                                <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-sm text-gray-300">
+                                    <i class="fa-solid fa-file-contract text-purple-400"></i> 签订正规合同
+                                </span>
+                                <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-sm text-gray-300">
+                                    <i class="fa-solid fa-clock text-green-400"></i> 合理化周期
+                                </span>
+                                <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 text-sm text-gray-300">
+                                    <i class="fa-solid fa-infinity text-accent"></i> 永久使用
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- 右侧：核心优势 -->
+                        <div class="space-y-4">
+                            <div class="glass-card p-5 flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-database text-purple-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold mb-1">数据完全本地存储</h4>
+                                    <p class="text-gray-500 text-sm">定制功能数据同样遵循本地存储原则，隐私安全无忧</p>
+                                </div>
+                            </div>
+                            
+                            <div class="glass-card p-5 flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-pink-500/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-bullseye text-pink-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold mb-1">更贴合工作需求</h4>
+                                    <p class="text-gray-500 text-sm">一对一需求分析，专业顾问对接，确保功能精准匹配</p>
+                                </div>
+                            </div>
+                            
+                            <div class="glass-card p-5 flex items-start gap-4">
+                                <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center flex-shrink-0">
+                                    <i class="fa-solid fa-handshake text-green-400"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold mb-1">按需报价 · 永久授权</h4>
+                                    <p class="text-gray-500 text-sm">根据功能复杂度合理报价，一次付费永久使用，无年费压力</p>
+                                </div>
+                            </div>
+                            
+                            <a href="#contact" class="btn-glow w-full inline-flex items-center justify-center gap-2 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-xl font-semibold">
+                                <i class="fa-solid fa-comments"></i> 免费需求评估 · 获取报价
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 系统要求 -->
+            <div class="mt-12 flex flex-wrap justify-center gap-4 text-sm" data-aos="fade-up" data-aos-delay="400">
+                <span class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 text-gray-400">
+                    <i class="fa-brands fa-windows text-primary"></i> Windows 10/11
+                </span>
+                <span class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 text-gray-400">
+                    <i class="fa-solid fa-memory text-accent"></i> 推荐 8GB 内存
+                </span>
+                <span class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 text-gray-400">
+                    <i class="fa-solid fa-earth-americas text-green-400"></i> 稳定网络
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 - 优化客服说明 -->
+    <section id="contact" class="py-20 md:py-32">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">联系我们</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">扫码添加微信客服，1分钟响应，一对一指导</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="glass-card p-8 text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-primary/20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-brands fa-weixin text-3xl text-primary"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">微信客服</h3>
+                    <p class="text-gray-400 text-sm mb-1">扫码添加微信好友</p>
+                    <p class="text-primary text-xs font-medium mb-4"><i class="fa-solid fa-bolt mr-1"></i>1分钟内响应</p>
+                    <div class="w-32 h-32 bg-white rounded-lg mx-auto flex items-center justify-center">
+                        <div class="text-center text-dark">
+                            <i class="fa-solid fa-qrcode text-4xl mb-2"></i>
+                            <p class="text-xs">客服二维码</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-8 text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-purple-500/20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-headset text-3xl text-purple-400"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">售后服务</h3>
+                    <p class="text-gray-400 text-sm mb-4">一对一配置指导 · 终身使用答疑<br>版本更新提醒</p>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-clock text-accent text-xs"></i>
+                            <span class="text-gray-300">12:00 - 21:00 在线</span>
+                        </div>
+                        <p class="text-gray-600 text-xs">非工作时间留言，次日12点前回复</p>
+                    </div>
+                </div>
+                
+                <div class="glass-card p-8 text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-purple-500/20 flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-circle-question text-3xl text-purple-400"></i>
+                    </div>
+                    <h3 class="font-semibold mb-2">帮助中心</h3>
+                    <p class="text-gray-400 text-sm mb-4">常见问题快速解答</p>
+                    <a href="#faq" class="text-purple-400 hover:text-purple-300 font-medium text-sm inline-flex items-center gap-1">
+                        查看FAQ <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="mt-10 text-center" data-aos="fade-up">
+                <a href="#" class="btn-glow inline-flex items-center gap-2">
+                    <i class="fa-brands fa-weixin"></i> 扫码添加客服 · 立即开通试用
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ - 精简核心问题 + 折叠更多 -->
+    <section id="faq" class="py-20 md:py-32 bg-surface">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16" data-aos="fade-up">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-4">常见问题</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">快速解答你的疑惑，让你使用更放心</p>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- 核心问题（始终显示） -->
+                <div class="glass-card overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                    <button class="faq-btn w-full flex justify-between items-center p-6 text-left font-semibold" onclick="toggleFaq(1)">
+                        <span><i class="fa-solid fa-gift text-primary mr-2"></i>真的支持3天免费试用吗？怎么开通？</span>
+                        <i class="fa-solid fa-chevron-down text-primary transition-transform duration-300" id="faq-icon-1"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-0 text-gray-400" id="faq-content-1">
+                        <div class="pb-6">支持！扫码添加微信客服，无需充值，一键开通试用账号。试用期间<span class="text-white">全功能无限制，和付费版完全一致</span>，体验满意后再付费。</div>
+                    </div>
+                </div>
+                
+                <div class="glass-card overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                    <button class="faq-btn w-full flex justify-between items-center p-6 text-left font-semibold" onclick="toggleFaq(2)">
+                        <span><i class="fa-solid fa-shield-halved text-success mr-2"></i>7天封号全额退款，具体怎么操作？</span>
+                        <i class="fa-solid fa-chevron-down text-primary transition-transform duration-300" id="faq-icon-2"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-0 text-gray-400" id="faq-content-2">
+                        <div class="pb-6">自激活软件之日起7天内，如因软件协议问题导致微信封号，<span class="text-white">仅需提供封号截图，24小时内全额退款，无任何附加条件</span>。</div>
+                    </div>
+                </div>
+                
+                <div class="glass-card overflow-hidden" data-aos="fade-up" data-aos-delay="300">
+                    <button class="faq-btn w-full flex justify-between items-center p-6 text-left font-semibold" onclick="toggleFaq(3)">
+                        <span><i class="fa-solid fa-lock text-orange-400 mr-2"></i>数据存在哪里？会不会泄露隐私？</span>
+                        <i class="fa-solid fa-chevron-down text-primary transition-transform duration-300" id="faq-icon-3"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-0 text-gray-400" id="faq-content-3">
+                        <div class="pb-6">采用<span class="text-white">AES256加密算法，数据仅存本地电脑</span>，无云端上传通道。软件不读取聊天内容，不收集任何隐私信息，已通过安全检测，无恶意插件。</div>
+                    </div>
+                </div>
+                
+                <div class="glass-card overflow-hidden" data-aos="fade-up" data-aos-delay="400">
+                    <button class="faq-btn w-full flex justify-between items-center p-6 text-left font-semibold" onclick="toggleFaq(4)">
+                        <span><i class="fa-solid fa-desktop text-accent mr-2"></i>支持哪些操作系统？电脑配置有要求吗？</span>
+                        <i class="fa-solid fa-chevron-down text-primary transition-transform duration-300" id="faq-icon-4"></i>
+                    </button>
+                    <div class="faq-content px-6 pb-0 text-gray-400" id="faq-content-4">
+                        <div class="pb-6">支持 <span class="text-white">Windows 10/11</span>，最低4GB运行内存（推荐8GB）。需要稳定的网络连接，支持多设备切换。Mac版本正在开发中，敬请期待。</div>
+                    </div>
+                </div>
+
+                <!-- 更多问题（折叠） -->
+                <div id="faq-more" class="hidden space-y-4 mt-4">
+                    <div class="glass-card overflow-hidden">
+                        <button class="faq-btn w-full flex justify-between items-center p-6 text-left font-semibold" onclick="toggleFaq(5)">
+                            <span>多协议切换怎么操作？</span>
+                            <i class="fa-solid fa-chevron-down text-primary transition-transform duration-300" id="faq-icon-5"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-0 text-gray-400" id="faq-content-5">
+                            <div class="pb-6">支持手动切换和自动切换两种模式。自动模式下软件会智能适配最优协议，无需手动干预，封号风险降低80%。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card overflow-hidden">
+                        <button class="faq-btn w-full flex justify-between items-center p-6 text-left font-semibold" onclick="toggleFaq(6)">
+                            <span>可以同时管理多少个群？</span>
+                            <i class="fa-solid fa-chevron-down text-primary transition-transform duration-300" id="faq-icon-6"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-0 text-gray-400" id="faq-content-6">
+                            <div class="pb-6">支持同时管理<span class="text-white">无限个群</span>，每个群独立账本，数据互不干扰。建议不超过500个群以保证运行流畅，管理500+群可联系客服定制化技术服务。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card overflow-hidden">
+                        <button class="faq-btn w-full flex justify-between items-center p-6 text-left font-semibold" onclick="toggleFaq(7)">
+                            <span>支持哪些支付方式？</span>
+                            <i class="fa-solid fa-chevron-down text-primary transition-transform duration-300" id="faq-icon-7"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-0 text-gray-400" id="faq-content-7">
+                            <div class="pb-6">支持微信支付、支付宝、银行卡转账等多种支付方式，联系客服即可办理。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card overflow-hidden">
+                        <button class="faq-btn w-full flex justify-between items-center p-6 text-left font-semibold" onclick="toggleFaq(8)">
+                            <span>Excel导出支持哪些报表类型？</span>
+                            <i class="fa-solid fa-chevron-down text-primary transition-transform duration-300" id="faq-icon-8"></i>
+                        </button>
+                        <div class="faq-content px-6 pb-0 text-gray-400" id="faq-content-8">
+                            <div class="pb-6">支持导出<span class="text-white">收支明细表、群成员对账表、月度汇总表</span>等多种报表模板，满足不同财务结算需求。</div>
+                        </div>
+                    </div>
+                    
+                
+                </div>
+                
+                <div class="text-center pt-4" data-aos="fade-up">
+                    <button id="faq-toggle-btn" class="glass px-6 py-3 rounded-xl font-medium transition-all hover:bg-white/10 inline-flex items-center gap-2 text-sm" onclick="toggleMoreFaq()">
+                        <i class="fa-solid fa-chevron-down transition-transform duration-300" id="faq-more-icon"></i>
+                        <span id="faq-more-text">查看更多问题</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 返回顶部按钮 -->
+    <button id="backToTop" class="fixed bottom-8 right-8 z-40 w-12 h-12 rounded-full bg-primary/90 hover:bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/30 transition-all opacity-0 pointer-events-none" aria-label="返回顶部">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <!-- 底部 -->
+    <footer class="bg-dark py-12 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                        <i class="fa-solid fa-wallet text-white"></i>
+                    </div>
+                    <span class="text-xl font-bold">HEZ 记账管理系统</span>
+                </div>
+                
+                <div class="flex flex-wrap gap-6 text-gray-500">
+                    <a href="#features" class="hover:text-white transition-colors">核心功能</a>
+                    <a href="#advantage" class="hover:text-white transition-colors">产品优势</a>
+                    <a href="#price" class="hover:text-white transition-colors">价格套餐</a>
+                    <a href="#contact" class="hover:text-white transition-colors">联系我们</a>
+                    <a href="#faq" class="hover:text-white transition-colors">常见问题</a>
+                </div>
+                
+                <div class="flex gap-4">
+                    <a href="#contact" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-primary/20 transition-colors" title="微信客服">
+                        <i class="fa-brands fa-weixin"></i>
+                    </a>
+                    <a href="#faq" class="w-10 h-10 rounded-full glass flex items-center justify-center hover:bg-primary/20 transition-colors" title="帮助中心">
+                        <i class="fa-solid fa-circle-question"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <hr class="border-white/10 my-8">
+            
+            <div class="text-center text-gray-500 text-sm">
+                <p>&copy; 2026 HEZ记账管理系统 版权所有 · 自研多协议防封引擎 · 深耕微信社群管理技术7年+</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 项目脚本 -->
+    <script src="js/main.js"></script>
+</body>
+</html>
