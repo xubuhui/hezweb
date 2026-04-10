@@ -13,18 +13,20 @@
     const SESSION_KEY = 'hez_manual_auth';
 
     const MANUAL_SECTIONS = [
-        { id: 'quick-start', title: '快速入门', content: '软件安装与登录、首次配置、开始使用' },
-        { id: 'auth', title: '授权管理', content: '权限体系、员工授权流程' },
-        { id: 'billing', title: '记账功能', content: '自动记账设置、多群账本管理、账单导出' },
-        { id: 'group-manage', title: '群聊管理', content: '群类型说明、群发功能、群设置' },
-        { id: 'commands', title: '指令系统', content: '核心指令、查询统计指令、标准化回复' },
-        { id: 'card-manage', title: '卡密管理', content: '卡密记账规则、汇率计算、专属管控' },
-        { id: 'statistics', title: '数据统计', content: '核心指标、图表分析、报表导出' },
-        { id: 'safety', title: '防封设置', content: '协议切换、安全建议' },
-        { id: 'advanced', title: '高级技巧', content: '快捷指令、通知与提醒' },
-        { id: 'faq', title: '常见问题', content: '登录失败、更换设备、数据恢复、收不到消息、联系客服' },
-        { id: 'troubleshooting', title: '故障排除', content: '错误代码、日志查看' },
-        { id: 'changelog', title: '更新日志', content: '版本更新历史、新增功能、优化改进、bug修复' }
+        { id: 'overview', title: '系统概述', content: '微信账号管理、群聊记账、群聊分组、自动回复、群组群发、员工记录、数据统计、卡密分析' },
+        { id: 'requirements', title: '系统要求', content: 'Windows 10/11、微信版本4.1.8、Python 3.12+' },
+        { id: 'quick-start', title: '安装与登录', content: 'web_app.exe、打包版、双击运行、登录页面、用户名、密码' },
+        { id: 'account-manage', title: '账号管理', content: '微信账号、启动微信、停止微信、刷新状态、管理员授权、/管理员' },
+        { id: 'group-category', title: '群聊分组', content: '收卡群、出卡群、内部群、新建分组、添加群聊、同步群名' },
+        { id: 'auto-reply', title: '自动回复', content: '关键词、正则表达式、触发类型、匹配方式、回复类型、冷却时间' },
+        { id: 'group-manage', title: '群组群发', content: '新建群发、选择目标群聊、发送间隔、发送进度' },
+        { id: 'commands', title: '群聊命令', content: '/开启、/关闭、/统计、/显示、/撤回、/清账、/管理员' },
+        { id: 'billing', title: '记账格式', content: '简单格式、带备注、卡密交易、面值、汇率、表达式计算' },
+        { id: 'statistics', title: '数据统计', content: '统计卡片、收入、支出、利润、活跃群数、交易笔数、卡密交易' },
+        { id: 'card-manage', title: '卡密分析', content: '盈利状态、盈利总额、亏损总额、净利润' },
+        { id: 'safety', title: '防封设置', content: '标准模式、推荐配置、安全建议、稳定模式' },
+        { id: 'faq', title: '常见问题', content: '登录失败、授权到期、微信无法启动、微信掉线、数据存储、数据备份' },
+        { id: 'changelog', title: '更新日志', content: '版本更新历史、新增功能、v2.1.0、v2.2.0、v2.2.1' }
     ];
 
     // 页面初始化
@@ -117,41 +119,21 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // TOC 高亮
+    // TOC 高亮和跳转
     function initTocHighlighter() {
         var tocLinks = document.querySelectorAll('.toc-link');
         if (tocLinks.length === 0) return;
 
-        var sections = MANUAL_SECTIONS.map(function (s) { return document.getElementById(s.id); }).filter(Boolean);
-
-        window.addEventListener('scroll', function () {
-            var scrollPos = window.scrollY + 150;
-
-            sections.forEach(function (section) {
-                if (!section) return;
-                var top = section.offsetTop;
-                var height = section.offsetHeight;
-                var id = section.getAttribute('id');
-
-                if (scrollPos >= top && scrollPos < top + height) {
-                    tocLinks.forEach(function (link) {
-                        link.classList.remove('active');
-                        if (link.getAttribute('data-section') === id) {
-                            link.classList.add('active');
-                        }
-                    });
-                }
-            });
-        });
-
+        // 侧边栏链接点击
         tocLinks.forEach(function (link) {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
                 var targetId = this.getAttribute('href').substring(1);
                 var targetSection = document.getElementById(targetId);
                 if (targetSection) {
-                    var offsetTop = targetSection.offsetTop - 80;
-                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                    var rect = targetSection.getBoundingClientRect();
+                    var targetPosition = rect.top + window.scrollY - 80;
+                    window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                 }
                 var sidebar = document.getElementById('tocSidebar');
                 var overlay = document.getElementById('tocOverlay');
@@ -160,7 +142,34 @@
             });
         });
 
-        var navLinks = document.querySelectorAll('.nav-link, .inline-flex[href^="#"]');
+        // 滚动时高亮当前章节
+        window.addEventListener('scroll', function () {
+            var scrollPos = window.scrollY + 200;
+            var currentId = null;
+
+            tocLinks.forEach(function(link) {
+                var sectionId = link.getAttribute('data-section');
+                var section = document.getElementById(sectionId);
+                if (section) {
+                    var rect = section.getBoundingClientRect();
+                    var top = rect.top + window.scrollY;
+                    var height = section.offsetHeight;
+                    if (scrollPos >= top && scrollPos < top + height) {
+                        currentId = sectionId;
+                    }
+                }
+            });
+
+            tocLinks.forEach(function(link) {
+                link.classList.remove('active');
+                if (link.getAttribute('data-section') === currentId) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 其他导航链接
+        var navLinks = document.querySelectorAll('.nav-link, a[href^="#"]:not(.toc-link)');
         navLinks.forEach(function (link) {
             link.addEventListener('click', function (e) {
                 var href = this.getAttribute('href');
@@ -169,8 +178,9 @@
                     var targetId = href.substring(1);
                     var targetSection = document.getElementById(targetId);
                     if (targetSection) {
-                        var offsetTop = targetSection.offsetTop - 80;
-                        window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                        var rect = targetSection.getBoundingClientRect();
+                        var targetPosition = rect.top + window.scrollY - 80;
+                        window.scrollTo({ top: targetPosition, behavior: 'smooth' });
                     }
                 }
             });
@@ -227,7 +237,9 @@
     window.scrollToSection = function (id) {
         var section = document.getElementById(id);
         if (section) {
-            window.scrollTo({ top: section.offsetTop - 80, behavior: 'smooth' });
+            var rect = section.getBoundingClientRect();
+            var targetPosition = rect.top + window.scrollY - 80;
+            window.scrollTo({ top: targetPosition, behavior: 'smooth' });
         }
         var searchResults = document.getElementById('searchResults');
         var searchInput = document.getElementById('searchInput');
